@@ -99,14 +99,14 @@ class UsersController extends Controller
         $subject = "感谢注册 Sample 应用！请确认你的邮箱。";
 
         Mail::send($view, $data, function ($message) use ($from, $name, $to, $subject) {
-            $message->from($from, $name)->to($to)->subject($subject);
+            $message->to($to)->subject($subject);
         });
     }
 
     public function confirmEmail($token)
     {
         $user = User::where('activation_token', $token)->firstOrFail();
-        
+
         $user->activated = true;
         $user->activation_token = null;
         $user->save();
