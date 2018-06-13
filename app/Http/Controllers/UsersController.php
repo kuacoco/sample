@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use Auth;
 use Mail;
 
 class UsersController extends Controller
@@ -27,7 +27,8 @@ class UsersController extends Controller
 
     public function show(User $user)
     {
-        return view('users.show', compact('user'));
+        $statuses = $user->statuses()->latest()->paginate(5);
+        return view('users.show', compact('user', 'statuses'));
     }
 
     public function edit(User $user)
